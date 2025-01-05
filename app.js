@@ -5,6 +5,23 @@ const path = require("path");
 const indexRouter = require("./routes/indexRouter");
 const newRouter = require("./routes/newRouter");
 
+app.use(express.urlencoded({ extended: true }));
+
+const messages = [
+  {
+    text: "Hi there!",
+    user: "Amando",
+    added: new Date(),
+  },
+  {
+    text: "Hello World!",
+    user: "Charles",
+    added: new Date(),
+  },
+];
+
+app.locals.messages = messages;
+
 const assetPath = path.join(__dirname, "assets");
 app.use(express.static(assetPath));
 
