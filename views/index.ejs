@@ -3,6 +3,13 @@
     <title>Mini Message Board</title>
   </head>
   <body>
-    <h1>Mini Message Board</h1>
+    <%- include("partials/header") %>
+    <h2><%= title %></h2>
+    <ul>
+      <% messages.forEach(message => { %>
+      <li><%= message.text %> - <%= message.user %> - <%= message.added %></li>
+      <% }) %>
+    </ul>
+    <%- include("partials/footer") %>
   </body>
 </html>
