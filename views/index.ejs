@@ -1,15 +1,50 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/styles.css" />
     <title>Mini Message Board</title>
   </head>
   <body>
-    <%- include("partials/header") %>
-    <h2><%= title %></h2>
-    <ul>
-      <% messages.forEach(message => { %>
-      <li><%= message.text %> - <%= message.user %> - <%= message.added %></li>
-      <% }) %>
-    </ul>
-    <%- include("partials/footer") %>
+    <%- include('./partials/header') %>
+
+    <main>
+      <div class="actions">
+        <a href="/messages/new" class="button">Add a New Message</a>
+        <a
+          href="/messages/delete"
+          class="button delete"
+          onclick="return confirm('Are you sure you want to delete all messages?')"
+          >Delete All Messages</a
+        >
+      </div>
+
+      <ul class="messages-list">
+        <% if (messages && messages.length > 0) { %> <%
+        messages.forEach((message) => { %>
+        <li class="message-item">
+          <div class="message-content">
+            <p class="message-text"><%= message.text %></p>
+            <div class="message-meta">
+              <span class="message-author"
+                >Posted by: <strong><%= message.user %></strong></span
+              >
+              <span class="message-time">
+                <%= new Date(message.created_at).toLocaleString('en-US', { year:
+                'numeric', month: 'short', day: 'numeric', hour: '2-digit',
+                minute: '2-digit' }) %>
+              </span>
+            </div>
+          </div>
+        </li>
+        <% }); %> <% } else { %>
+        <li>No messages yet!</li>
+        <% } %>
+      </ul>
+    </main>
+
+    <%- include('./partials/footer') %>
   </body>
 </html>

@@ -1,7 +1,7 @@
 <header>
-  <h1>Mini Message Board</h1>
+  <h1><%= typeof title !== 'undefined' ? title : 'Mini Message Board' %></h1>
+  <nav>
+    <a href="/messages">Home</a>
+    <a href="/messages/new">New Message</a>
+  </nav>
 </header>
-<nav>
-  <a href="/">Home</a>
-  <a href="/new">New Message</a>
-</nav>

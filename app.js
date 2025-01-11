@@ -1,46 +1,28 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const dotenv = require("dotenv");
 
-const indexRouter = require("./routes/indexRouter");
-const newRouter = require("./routes/newRouter");
+// Load environment variables
+dotenv.config();
 
+// Middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
-const messages = [
-  {
-    text: "Hi there!",
-    user: "Amando",
-    added: new Date(),
-  },
-  {
-    text: "Hello World!",
-    user: "Charles",
-    added: new Date(),
-  },
-];
-
-app.locals.messages = messages;
-
-const assetPath = path.join(__dirname, "assets");
-app.use(express.static(assetPath));
-
-// View engine
-app.set("views", path.join(__dirname, "views"));
+// View Engine
 app.set("view engine", "ejs");
 
-// Then add your links middleware BEFORE your route handlers
+// Routes
+const messagesRouter = require("./routes/messages");
+app.use("/messages", messagesRouter);
 
-// AFTER middleware, add route handlers
-app.use("/", indexRouter);
-app.use("/new", newRouter);
-
-// Keep error handling middleware at the end
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.statusCode || 500).send(err.message);
+// Redirect root to /messages
+app.get("/", (req, res) => {
+  res.redirect("/messages");
 });
 
+// Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
